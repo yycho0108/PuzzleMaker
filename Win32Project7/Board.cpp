@@ -97,6 +97,31 @@ void Board::movePiece(int dx, int dy)
 
 void Board::releasePiece()
 {
+	if (drag)
+	{
+		Piece::ij_POINT o = drag->logPt;
+		Piece::ij_POINT oLoc = drag->physPt;
+
+		std::list<Piece::ij_POINT> locAdd;
+		
+		for (auto i = pzl_list.begin(); i != pzl_list.end();)
+		{
+			auto p = *i;
+			Piece::ij_POINT site;
+			if (drag->getBindSite(p,o,oLoc,site))
+			{
+				drag->Mate(p, site);
+				locAdd.splice(locAdd.end(), p->Locs);
+				i = pzl_list.erase(i);
+				delete(p);
+				continue;
+			}
+			++i;
+		}
+		drag->Locs.splice(drag->Locs.end(), locAdd);
+		drag->updateRgn();
+		InvalidateRgn(hMainWnd, drag->myClipRgn, TRUE);
+		drag = nullptr;
+	}
 	
-	drag = nullptr;
 }

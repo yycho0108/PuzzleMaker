@@ -6,7 +6,7 @@ BaseImage Image;
 int brdWidth=0, brdHeight=0;
 int imgWidth=0, imgHeight=0;
 int tileWidth=0, tileHeight=0;
-
+int twSmall = 0, thSmall = 0;
 BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -61,6 +61,8 @@ bool UpdateDimensions(HWND hDlg)
 		tileHeight = imgHeight / brdHeight;
 		SetDlgItemInt(hDlg, IDC_EDIT5, tileWidth, FALSE);
 		SetDlgItemInt(hDlg, IDC_EDIT6, tileHeight, FALSE);
+		twSmall = tileWidth / 5;
+		thSmall = tileHeight / 5;
 		return true;
 	}
 	else
