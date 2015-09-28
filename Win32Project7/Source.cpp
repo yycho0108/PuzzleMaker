@@ -113,7 +113,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_LBUTTONUP:
 	{
-		mainBoard->releasePiece();
+		if (mainBoard->releasePiece())
+		{
+			MessageBox(hWnd, TEXT("CLEAR!"), TEXT("CLEAR!"), MB_OK);
+			InvalidateRect(hWnd, NULL, TRUE);
+		}
 		break;
 	}
 	case WM_SIZE:

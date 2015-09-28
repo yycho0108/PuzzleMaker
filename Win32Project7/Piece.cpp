@@ -2,7 +2,7 @@
 #include "BaseImage.h"
 #include <random>
 #include <ctime>
-#define threshold (min((tile / 8).magSQ(),1))
+#define threshold (max((tile / 16).magSQ(),4))
 
 extern BaseImage Image;
 
@@ -60,8 +60,8 @@ void Piece::Print(HDC hdc)
 		Piece::ij_POINT pc = Piece::ij_POINT{ pHeight,pWidth }*wnd / img;
 
 
-		Piece::ij_POINT loc = (physPt - tSmall/2)*wnd / img;
-		Piece::ij_POINT bmpLoc = logPt*tile - tSmall;
+		Piece::ij_POINT loc = (physPt - tSmall/2)*wnd / img; //physpt = before conversion.
+		Piece::ij_POINT bmpLoc = logPt*tile - tSmall/2;
 		HDC memDC = CreateCompatibleDC(hdc);
 		HBITMAP OldBit = (HBITMAP)SelectObject(memDC, Image.memBit);
 		SelectClipRgn(hdc, myClipRgn);
@@ -69,7 +69,7 @@ void Piece::Print(HDC hdc)
 		StretchBlt(hdc, loc.j, loc.i, pc.j, pc.i, memDC,
 			bmpLoc.j,bmpLoc.i,pWidth,pHeight, SRCCOPY);
 
-		FrameRgn(hdc, myClipRgn, (HBRUSH)GetStockObject(BLACK_BRUSH),2, 2);
+		FrameRgn(hdc, myClipRgn, (HBRUSH)GetStockObject(BLACK_BRUSH),1,1);
 		SelectObject(memDC, OldBit);
 		DeleteDC(memDC);
 	}
@@ -150,13 +150,14 @@ bool Piece::getBindSite(Piece* other, ij_POINT Ref, ij_POINT RefLoc, ij_POINT& s
 	if (this != other)
 	{
 		ij_POINT tile{ tileHeight,tileWidth };
+		float t = threshold;
 		if (((other->physPt - RefLoc) - (other->logPt - Ref)*tile).magSQ() < threshold)
 		{
 			for (auto p : Locs)
 			{
 				for (auto q : other->Locs)
 				{
-					if ((p - q).magSQ() == 1) //quick check for neighborhood.
+					if ((p - q).magSQ()< 1.2) //quick check for neighborhood.
 					{
 						site = other->logPt - logPt;
 						return true;

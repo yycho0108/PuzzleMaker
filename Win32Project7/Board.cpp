@@ -95,7 +95,7 @@ void Board::movePiece(int dx, int dy)
 	}
 }
 
-void Board::releasePiece()
+bool Board::releasePiece()
 {
 	if (drag)
 	{
@@ -124,4 +124,11 @@ void Board::releasePiece()
 		drag = nullptr;
 	}
 	
+	if (pzl_list.size() == 1)
+	{
+		SetRectRgn(pzl_list.front()->myRgn, 0, 0, imgWidth, imgHeight);
+		SetRectRgn(pzl_list.front()->myClipRgn, 0, 0, wndWidth, wndHeight);
+		return true;
+	}
+	return false;
 }

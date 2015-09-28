@@ -24,8 +24,8 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			GetObject(Image.memBit, sizeof(BITMAP), &Bit);
 			imgHeight = Bit.bmHeight;
 			imgWidth = Bit.bmWidth;
-			SetDlgItemInt(hDlg, IDC_EDIT3, imgHeight, FALSE);
-			SetDlgItemInt(hDlg, IDC_EDIT4, imgWidth, FALSE);
+			SetDlgItemInt(hDlg, IDC_EDIT3, imgWidth, FALSE);
+			SetDlgItemInt(hDlg, IDC_EDIT4, imgHeight, FALSE);
 			UpdateDimensions(hDlg);
 			break;
 		}
@@ -59,16 +59,18 @@ bool UpdateDimensions(HWND hDlg)
 	{
 		tileWidth = imgWidth / brdWidth;
 		tileHeight = imgHeight / brdHeight;
-		SetDlgItemInt(hDlg, IDC_EDIT5, tileWidth, FALSE);
-		SetDlgItemInt(hDlg, IDC_EDIT6, tileHeight, FALSE);
-		twSmall = tileWidth / 5;
-		thSmall = tileHeight / 5;
-		return true;
+		if (tileWidth > 0 && tileHeight > 0)
+		{
+			SetDlgItemInt(hDlg, IDC_EDIT5, tileWidth, FALSE);
+			SetDlgItemInt(hDlg, IDC_EDIT6, tileHeight, FALSE);
+			twSmall = tileWidth / 5;
+			thSmall = tileHeight / 5;
+			return true;
+		}
+
+
 	}
-	else
-	{
 		SetDlgItemText(hDlg, IDC_EDIT5, TEXT("N/A"));
 		SetDlgItemText(hDlg, IDC_EDIT6, TEXT("N/A"));
 		return false;
-	}
 }

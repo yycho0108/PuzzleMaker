@@ -18,5 +18,5 @@ public:
 	bool getPiece(int x, int y);
 	bool getPiece(POINT pt);
 	void movePiece(int dx, int dy);
-	void releasePiece();
+	bool releasePiece();
 };
