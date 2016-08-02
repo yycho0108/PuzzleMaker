@@ -1,10 +1,15 @@
 # PuzzleMaker
-Creates Puzzle from Image
 
- /* to add -
- disperse puzzles at beginning
- 
- rotation of puzzle pieces
- 
- variations on the bumps on the side
- */
+This is a backup of an old repository which will likely not be maintained in the future.
+
+This proejcts automatically creates puzzles from an input image.
+
+## Sample Image
+
+![sample](images/sample.png)
+
+## TO DOS:
+
+- Disperse puzzles at beginning
+- Allow Rotation
+- More Variation on Bumps
